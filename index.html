@@ -1,0 +1,281 @@
+<html>
+    <head>
+        <title>Form validation</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+        <script src="C:\Users\user\Desktop\Complete Web Developer Course\Chapter 4(JQuery)\jquery-ui-1.13.2\jquery-ui.js"></script>
+        <link rel="stylesheet" href="C:\Users\user\Desktop\Complete Web Developer Course\Chapter 4(JQuery)\jquery-ui-1.13.2\jquery-ui.css">
+
+        <style type="text/css">
+
+            html{
+
+                width: vw;
+                height: vh;
+            }
+
+            body{
+
+                background-color: rgb(102, 0, 255);
+                padding: 0;
+                margin: 0;
+            }
+
+            h1{
+                 color: white;
+            }
+
+            .login-form{
+
+                margin: 0px 200px 0 300px;
+                width: 50%;
+                padding: 15px;
+                background-color: azure;
+                border-radius: 5px;
+                box-shadow: 20px 20px 20px 0px rgba(0,0,0,0.5);
+
+            }
+
+            input{
+
+                width:100%;
+                padding: 10px;
+                margin: 5px 0px 22px 6px;
+                border: none;
+                background-color: white;
+                border-radius: 5px;
+            }
+
+            input:target,
+            input:hover{
+                background-color: #ddd;
+                border: none;
+            }
+
+            .form-control {
+                
+                line-height: 1.1;
+                display: grid;
+                grid-template-columns: 1em auto;
+                gap: 1em;
+
+            }
+
+            button{
+
+                width:100%;
+                padding:10px;
+                border:none;
+                border-radius: 5px;
+                background-color:rgb(102, 0, 255);
+                font-weight: bold;
+
+            }
+
+            button:hover{
+
+                background-color: rgb(71, 0, 179);
+                color: whitesmoke;
+            }
+
+            .span-msg{
+
+                font-size: 15px;
+                color: red;
+                display: none;
+            }
+
+
+        </style>  
+
+    </head>
+
+    <body>
+
+        <form>
+            <div class="login-form">
+            <fieldset>
+            <legend><b>Registeration Form</b></legend>
+
+            <span class="span-msg" id="name-wrong">Enter a valid name</span>
+            <input type="text" id="name" placeholder="Name"><br><br>
+
+            <span class="span-msg" id="phone-wrong">Enter a valid mobile number with 10 digits only</span>
+            <input type="number" id="phone" placeholder="Contact number(10 digits)"><br><br>
+
+            <span id="mail-wrong" class="span-msg">Enter a valid email address</span>
+            <input type="text" id="Email_verify" placeholder="Email (eg: yourname@gmail.com)"><br><br>
+
+            <span class="span-msg" id="gender-wrong">Please select a gender</span><br>
+            <label><b>Gender</b><br></label><br>
+            <label class="form-control"><input type="radio" id="male" name=gender value="Male">Male</label>
+            <label class="form-control"><input type="radio" id="female" name=gender value="Female">Female</label>
+            <label class="form-control"><input type="radio" id="others" name=gender value="Others">Others<br></label>
+
+            <span id="wrong-pass" class="span-msg" style="font-size: 11px"></span>
+            <input type="text" id="pass1" placeholder="Password" oninput="isPass()" onblur="hide()"><br><br>
+            <input type="password" id="pass2" placeholder="Confirm Password"><br><br>
+
+            <button type="button" onclick="validate()"> Submit</button>
+
+            </fieldset>
+        </div>
+        </form>
+
+        <script type="text/javascript">
+
+                function isName(name){
+
+                var regn = /^[a-zA-Z\s]+$/;
+
+                return regn.test(name);
+
+                }
+
+                function isPhone(phone){
+
+                    var regp = /^\d{10}$/;
+
+                    return regp.test(phone);
+
+                }
+
+                function isEmail(email){
+
+                    var regm = /^([a-zA-Z0-9\._]+)@([a-zA-Z0-9])+.([a-z]+)(.[a-z]+)?$/;
+
+                    return regm.test(email);
+
+                }
+
+                function isPass(){
+
+                    //Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character
+                    var regpass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/;
+                    var pass = $("#pass1").val();
+                    console.log(pass);
+                    var check = regpass.test(pass);
+
+                    //$("#pass1").attr("type","text");
+
+                    if(check){
+
+                        $("#pass1").css("border","2px green solid");
+                        $("#wrong-pass").css({display: "block", color: "green"});
+                        $("#wrong-pass").html("Perfect Password!");
+
+                    }else{
+
+                        $("#pass1").css("border", "2px red solid"); 
+                        $("#wrong-pass").css({display: "block", color: "red"});
+                        $("#wrong-pass").html("Minimum 8 and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character");
+
+                    }
+
+                }
+
+                function hide(){
+
+                    $("#pass1").attr("type","password");
+
+                }
+
+                function validate(){
+
+                    var name = isName($("#name").val());
+                    var phn = isPhone($("#phone").val());
+                    var mail = isEmail($("#Email_verify").val());
+                    var pass1 = $("#pass1").val();
+                    var pass2 = $("#pass2").val();
+                    var male = $("#male").is(":checked");
+                    var female = $("#female").is(":checked");
+                    var others = $("#others").is(":checked");
+
+
+
+                    if(name == true){
+
+                        $("#name").css("border", "2px green solid");
+                        $("#name-wrong").css("display","none");
+
+
+                    } else {
+
+                        $("#name").css("border", "2px solid red");
+                        $("#name-wrong").css("display","block");
+
+                    }
+
+                    
+
+                    if(phn == true){
+
+                        $("#phone").css("border", "2px green solid");
+                        $("#phone-wrong").css("display","none");
+
+
+                    } else {
+
+                        $("#phone").css("border", "2px solid red");
+                        $("#phone-wrong").css("display","block");
+
+                    }
+
+
+                    
+                    if(mail == true){
+
+                        $("#Email_verify").css("border", "2px green solid");
+                        $("#mail-wrong").css("display", "none");
+
+                    } else {
+
+                        $("#Email_verify").css("border", "2px red solid"); 
+                        $("#mail-wrong").css("display", "block");
+
+                    }
+
+                    
+                    
+
+                    if(male || female || others){
+
+                        $("#gender-wrong").css("display","none");
+
+                    } else{
+
+                        $("#gender-wrong").css("display","block");
+
+                    }
+
+                    if((pass1 == "") || (pass2 == "")){
+
+                        $("#pass1").css("border", "2px red solid"); 
+                        $("#pass2").css("border", "2px red solid"); 
+                        $("#wrong-pass").css({display:"block", color: "red"});
+                        $("#wrong-pass").html("Please enter password"); 
+
+                    } else if(pass1 == pass2){
+
+                        $("#pass1").css("border", "2px green solid");
+                        $("#pass2").css("border", "2px green solid"); 
+                        if($("#wrong-pass").css("display") == "block"){
+
+                            $("#wrong-pass").css("display","none");
+
+                        }
+
+                    }else{
+
+                        $("#pass1").css("border", "2px red solid"); 
+                        $("#pass2").css("border", "2px red solid"); 
+                        $("#wrong-pass").css({display:"block", color:"red"});
+                        $("#wrong-pass").html("Password do not match. Recheck your passwords"); 
+
+                    }
+
+                }
+
+        </script>
+    </body>
+</html>
